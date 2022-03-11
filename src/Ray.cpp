@@ -1,5 +1,7 @@
 #include <Ray.hpp>
 
+using glm::vec4;
+
 /* Constructor */
 Ray::Ray(const vec4& orig, const vec4& dir) :
 	orig(orig), dir(dir) {}

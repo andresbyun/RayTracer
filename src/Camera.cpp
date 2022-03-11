@@ -1,5 +1,6 @@
 #include <Camera.hpp>
 
+using glm::vec3;
 using glm::vec4;
 using glm::cross;
 using glm::normalize;

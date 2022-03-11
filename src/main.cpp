@@ -1,13 +1,10 @@
 /* Include statements */
 #include <main.hpp>
+
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include <string>
 #include <regex>
 #include <Ray.hpp>
-#include <Camera.hpp>
-#include <glm/glm.hpp>
 
 /* Using statements */
 using std::cout;
@@ -18,16 +15,16 @@ using std::vector;
 using glm::vec3;
 using glm::vec4;
 using glm::mat4;
+using glm::normalize;
 using std::string;
 
 /* Main function */
 int main(int argc, char** argv) {
 	cout << "Hello, RayTracer" << endl;
 
-	Camera eye(250, 250, 1, vec3(0, 0, -1), vec3(0, 1, 0), vec3(0));
-
 	// Generate the ppm
-	save_ppm();
+	Camera eye(256, 256, 1, vec3(0, 0, 1), vec3(0, 1, 0), vec3(0));
+	save_ppm(eye);
 
 	// Convert ppm to png
 	string pyCmd = "python3 scripts/fileGen.py";
@@ -40,12 +37,12 @@ int main(int argc, char** argv) {
 /* Create the output ppm
  * Saves it as "tmp/out.ppm"
  */
-void save_ppm() {
+void save_ppm(Camera eye) {
 	string name("tmp/out.ppm");
 	ofstream file(name, ios_base::out | ios_base::binary);
 
-	int width = 256;
-	int height = 256;
+	int width = eye.getWidth();
+	int height = eye.getHeight();
 
 	file << "P6\n"
 		<< width << ' ' << height << '\n'
@@ -53,13 +50,7 @@ void save_ppm() {
 
 	for (int j = height - 1; j >= 0; j--) {
 		for (int i = 0; i < width; i++) {
-			vec3 color(
-				float(i) / 255.0f, 
-				float(j) / 255.0f,
-				0.25
-			);
-
-			color *= 255.999f;
+			vec3 color = raytrace(eye.getRay(i, j)) * 255.999f;
 			file << (char) color.r << (char) color.g << (char) color.b;
 		}
 	}
@@ -67,7 +58,16 @@ void save_ppm() {
 	file.close();
 }
 
-// Returns a vector containing the tokens
+/* Return the color of the pixel */
+vec3 raytrace(Ray r) {
+	vec3 direction = normalize(r.at(1) - r.at(0));
+	float t = 0.5 * (direction.y + 1.0);
+	vec3 color = (1.0f - t) * vec3(1) + t * vec3(0, 1, 0);
+
+	return color;
+}
+
+/* Return a vector containing the tokens */
 vector<string> tokenize_line(string str) {
 	const std::regex re(R"(\s+)");
 

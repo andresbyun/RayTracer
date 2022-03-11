@@ -3,17 +3,15 @@
 
 #include <glm/glm.hpp>
 
-using glm::vec4;
-
 class Ray {
 public:
-	Ray(const vec4& orig, const vec4& dir);
-	vec4 at(float t);
-	Ray reflected(vec4 N, float t);
+	Ray(const glm::vec4& orig, const glm::vec4& dir);
+	glm::vec4 at(float t);
+	Ray reflected(glm::vec4 N, float t);
 
 private:
-	vec4 orig;
-	vec4 dir;
+	glm::vec4 orig;
+	glm::vec4 dir;
 };
 
 #endif // !__RAY_HPP__
