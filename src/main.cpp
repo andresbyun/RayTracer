@@ -4,6 +4,9 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <regex>
+#include <Ray.hpp>
+#include <Camera.hpp>
 #include <glm/glm.hpp>
 
 /* Using statements */
@@ -21,15 +24,13 @@ using std::string;
 int main(int argc, char** argv) {
 	cout << "Hello, RayTracer" << endl;
 
+	Camera eye(250, 250, 1, vec3(0, 0, -1), vec3(0, 1, 0), vec3(0));
+
 	// Generate the ppm
 	save_ppm();
 
 	// Convert ppm to png
 	string pyCmd = "python3 scripts/fileGen.py";
-	for (int i = 1; i < argc; i++) {
-		pyCmd += ' ';
-		pyCmd.append(argv[i]);
-	}
 	system(pyCmd.c_str());
 	cout << "File generation completed!" << endl;
 
@@ -64,4 +65,25 @@ void save_ppm() {
 	}
 
 	file.close();
+}
+
+// Returns a vector containing the tokens
+vector<string> tokenize_line(string str) {
+	const std::regex re(R"(\s+)");
+
+	std::sregex_token_iterator it{ str.begin(), str.end(), re, -1 };
+	vector<string> tokens{ it, {} };
+
+	// Delete empty strings
+	tokens.erase(
+		std::remove_if(
+			tokens.begin(),
+			tokens.end(),
+			[](string const& s) {
+				return s.size() == 0;
+			}),
+		tokens.end()
+	);
+
+	return tokens;
 }

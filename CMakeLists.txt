@@ -17,4 +17,5 @@ file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/tmp")
 add_executable(RayTracer
 	src/main.cpp
 	src/Ray.cpp
-)
+	src/Camera.cpp
+ )
