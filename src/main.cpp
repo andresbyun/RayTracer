@@ -21,26 +21,26 @@ using std::string;
 int main(int argc, char** argv) {
 	cout << "Hello, RayTracer" << endl;
 
+	// Generate the ppm
 	save_ppm();
 
-	/* TODO: CONVERT THE PPM INTO A REASONABLE FILE FORMAT */
+	// Convert ppm to png
 	string pyCmd = "python3 scripts/fileGen.py";
-	
 	for (int i = 1; i < argc; i++) {
 		pyCmd += ' ';
 		pyCmd.append(argv[i]);
 	}
-
 	system(pyCmd.c_str());
-	
+	cout << "File generation completed!" << endl;
+
 	return 0;
 }
 
 /* Create the output ppm
- * Saves it as "out.ppm"
+ * Saves it as "tmp/out.ppm"
  */
 void save_ppm() {
-	string name("out.ppm");
+	string name("tmp/out.ppm");
 	ofstream file(name, ios_base::out | ios_base::binary);
 
 	int width = 256;
@@ -59,7 +59,6 @@ void save_ppm() {
 			);
 
 			color *= 255.999f;
-
 			file << (char) color.r << (char) color.g << (char) color.b;
 		}
 	}

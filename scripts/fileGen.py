@@ -9,9 +9,15 @@ from PIL import Image
 
 # Convert the ppm file into a png
 def main(argv):
-    print("python script was reached")
+    print("Generating png...")
 
-    print(argv)
+    if not os.path.isdir('Output'):
+        os.mkdir('Output')
+
+    im = Image.open("tmp/out.ppm")
+    im.save("Output/" + "out.png")
+
+    os.remove("tmp/out.ppm")
 
 if __name__ == "__main__":
     main(sys.argv)

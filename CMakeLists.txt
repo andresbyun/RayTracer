@@ -1,17 +1,19 @@
 cmake_minimum_required(VERSION 3.20)
 project(RayTracer)
 
-# Compile external dependencies 
-add_subdirectory(include/glm)
-
+# Include directories
 include_directories(
 	include/
 	include/glm/
 )
 
-# Copy scripts to the executable's directory
+# Copy directories to the executable's directory
 file(COPY ./scripts DESTINATION "${CMAKE_BINARY_DIR}")
 
+# Generate directory at build system generation
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/tmp")
+
+# Add to executable
 add_executable(RayTracer
 	src/main.cpp
 )
