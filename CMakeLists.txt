@@ -8,6 +8,9 @@ include_directories(
 	include/glm/
 )
 
+# Copy scripts to the executable's directory
+file(COPY ./scripts DESTINATION "${CMAKE_BINARY_DIR}")
+
 add_executable(RayTracer
 	src/main.cpp
 )

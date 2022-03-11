@@ -15,5 +15,6 @@ using glm::vec4;
 /* TODO: make it do something */
 int main(int argc, char** argv) {
 	cout << "Hello, RayTracer" << endl;
+	system("py scripts/fileGen.py");
 	return 0;
 }
