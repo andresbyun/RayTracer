@@ -4,7 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <glm/glm/glm.hpp>
+#include <glm/glm.hpp>
 
 /* Using statements */
 using std::cout;
@@ -36,7 +36,9 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-/* Create the output ppm */
+/* Create the output ppm
+ * Saves it as "out.ppm"
+ */
 void save_ppm() {
 	string name("out.ppm");
 	ofstream file(name, ios_base::out | ios_base::binary);
@@ -44,21 +46,21 @@ void save_ppm() {
 	int width = 256;
 	int height = 256;
 
-	file << "P3\n"
+	file << "P6\n"
 		<< width << ' ' << height << '\n'
-		<< "255\n";
+		<< 255 << '\n';
 
 	for (int j = height - 1; j >= 0; j--) {
 		for (int i = 0; i < width; i++) {
 			vec3 color(
-				float(i) / (width - 1), 
-				float(j) / (height - 1),
+				float(i) / 255.0f, 
+				float(j) / 255.0f,
 				0.25
 			);
 
-			color *= 255.999;
+			color *= 255.999f;
 
-			file << (int) color.r << ' ' << (int) color.g << ' ' << (int) color.b << '\n';
+			file << (char) color.r << (char) color.g << (char) color.b;
 		}
 	}
 
