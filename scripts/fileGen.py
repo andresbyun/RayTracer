@@ -1,9 +1,9 @@
-#!/usr/bin/python
 """
 Python script made to handle image file generation
 """
 
 import sys
+from PIL import Image
 
 def main(argv):
     print("python script was reached")
